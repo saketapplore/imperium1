@@ -60,7 +60,7 @@ const Login = () => {
         setLoading(true);
         try {
             await login(formData);
-            navigate('/dashboard');
+            navigate('/content-management');
         } catch (error) {
             setErrors({
                 submit: error.response?.data?.message || 'Login failed. Please try again.'

@@ -16,8 +16,8 @@ const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     return (
-        <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16 max-w-7xl mx-auto">
+        <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 sm:px-6 lg:px-8 w-full">
+            <div className="flex justify-between items-center h-16 w-full">
                 {/* Left: Mobile Menu & Search */}
                 <div className="flex items-center flex-1">
                     <button className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100">

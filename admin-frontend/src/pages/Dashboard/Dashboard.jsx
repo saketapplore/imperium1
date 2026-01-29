@@ -1,17 +1,12 @@
 import { useAuth } from '../../hooks/useAuth';
-import Navbar from '../../components/layout/Navbar';
-import Sidebar from '../../components/layout/Sidebar';
-import Footer from '../../components/layout/Footer';
 import {
     Users,
     Package,
     ShoppingCart,
     DollarSign,
-    TrendingUp,
-    ArrowUpRight,
     Plus,
     BarChart3,
-    Settings
+    ArrowUpRight
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -32,125 +27,100 @@ const Dashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50/50 flex flex-col">
-            <Navbar />
+        <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Dashboard Overview</h1>
+                    <p className="text-gray-500 mt-1 font-medium">Welcome back, {user?.name || 'Admin'}!</p>
+                </div>
+                <button className="flex items-center space-x-2 bg-primary-600 text-white px-6 py-3 rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 font-bold active:scale-95">
+                    <Plus className="w-4 h-4" />
+                    <span>Generate Report</span>
+                </button>
+            </div>
 
-            <div className="flex flex-1">
-                <Sidebar />
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {stats.map((stat) => {
+                    const Icon = stat.icon;
+                    return (
+                        <div key={stat.title} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                            <div className="flex justify-between items-start mb-4">
+                                <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
+                                    <Icon className="w-6 h-6" />
+                                </div>
+                                <span className="text-xs font-bold text-emerald-500 bg-emerald-50 px-2.5 py-1 rounded-lg">
+                                    {stat.trend}
+                                </span>
+                            </div>
+                            <h3 className="text-gray-500 text-sm font-bold uppercase tracking-widest">{stat.title}</h3>
+                            <p className="text-3xl font-black text-gray-900 mt-1">{stat.value}</p>
+                        </div>
+                    );
+                })}
+            </div>
 
-                <main className="flex-1 p-4 lg:p-8 overflow-y-auto animate-fade-in text-gray-900">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
-                        <div>
-                            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">Dashboard Overview</h1>
-                            <p className="text-gray-500 mt-2 font-medium">
-                                Welcome back, <span className="text-primary-600 underline underline-offset-4 decoration-primary-200">{user?.name || 'Admin'}</span>
-                            </p>
-                        </div>
-                        <div className="flex space-x-3 w-full sm:w-auto">
-                            <button className="flex-1 sm:flex-none flex items-center justify-center space-x-2 bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all shadow-sm font-semibold active:scale-95">
-                                <BarChart3 className="w-4 h-4" />
-                                <span>Export Reports</span>
-                            </button>
-                            <button className="flex-1 sm:flex-none flex items-center justify-center space-x-2 bg-primary-600 text-white px-5 py-2.5 rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 font-semibold active:scale-95">
-                                <Plus className="w-4 h-4" />
-                                <span>New Record</span>
-                            </button>
-                        </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Recent Activity */}
+                <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                    <div className="flex justify-between items-center mb-8">
+                        <h3 className="text-xl font-black text-gray-900 tracking-tight">Recent Activity</h3>
+                        <button className="text-primary-600 text-sm font-bold hover:underline">View all</button>
                     </div>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                        {stats.map((stat, index) => {
-                            const Icon = stat.icon;
+                    <div className="space-y-6">
+                        {recentActivities.map((activity) => {
+                            const Icon = activity.icon;
                             return (
-                                <div key={index} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-xl hover:border-primary-100 transition-all duration-300 group">
-                                    <div className="flex justify-between items-start mb-6">
-                                        <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} transition-transform group-hover:scale-110 group-hover:rotate-3`}>
-                                            <Icon className="w-6 h-6" />
+                                <div key={activity.id} className="flex items-center justify-between group cursor-pointer">
+                                    <div className="flex items-center space-x-4">
+                                        <div className={`p-3 rounded-xl ${activity.bg} ${activity.color}`}>
+                                            <Icon className="w-5 h-5" />
                                         </div>
-                                        <div className="flex items-center text-emerald-600 bg-emerald-50 px-2 py-1 rounded-lg text-xs font-bold">
-                                            <span>{stat.trend}</span>
-                                            <TrendingUp className="w-3 h-3 ml-1" />
+                                        <div>
+                                            <p className="text-sm font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+                                                {activity.action}
+                                            </p>
+                                            <p className="text-xs text-gray-500 font-medium mt-0.5">{activity.time}</p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">{stat.title}</p>
-                                        <p className="text-3xl font-black text-gray-900 mt-2">{stat.value}</p>
-                                    </div>
+                                    <ArrowUpRight className="w-4 h-4 text-gray-300 group-hover:text-gray-600 transition-colors" />
                                 </div>
                             );
                         })}
                     </div>
+                </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Recent Activity */}
-                        <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div className="px-8 py-6 border-b border-gray-50 flex justify-between items-center">
-                                <h2 className="text-xl font-bold text-gray-900">Recent Activity</h2>
-                                <button className="text-primary-600 text-sm font-bold hover:text-primary-700 flex items-center group">
-                                    View Full History <ArrowUpRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                                </button>
+                {/* Quick Actions / Integration */}
+                <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 text-white shadow-xl">
+                    <h3 className="text-xl font-black mb-6 tracking-tight flex items-center">
+                        <BarChart3 className="w-6 h-6 mr-3 text-primary-400" />
+                        System Status
+                    </h3>
+                    <div className="space-y-6">
+                        <div className="bg-white/5 p-5 rounded-2xl border border-white/10">
+                            <div className="flex justify-between text-sm mb-2">
+                                <span className="text-gray-400 font-bold">Server Load</span>
+                                <span className="text-emerald-400 font-bold">Normal</span>
                             </div>
-                            <div className="p-8">
-                                <div className="space-y-8">
-                                    {recentActivities.map((activity) => {
-                                        const Icon = activity.icon;
-                                        return (
-                                            <div key={activity.id} className="flex items-center space-x-5 group cursor-pointer">
-                                                <div className={`p-3 rounded-xl ${activity.bg} ${activity.color} transition-colors group-hover:bg-opacity-100`}>
-                                                    <Icon className="w-5 h-5" />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <p className="text-base font-bold text-gray-900 group-hover:text-primary-600 transition-colors uppercase tracking-tight">{activity.action}</p>
-                                                    <p className="text-sm text-gray-500 font-medium">{activity.time}</p>
-                                                </div>
-                                                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <ArrowUpRight className="w-4 h-4 text-gray-400" />
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
+                            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div className="h-full bg-emerald-500 w-[35%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
                             </div>
                         </div>
-
-                        {/* Quick Actions */}
-                        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden h-fit">
-                            <div className="px-8 py-6 border-b border-gray-50">
-                                <h2 className="text-xl font-bold text-gray-900">Quick Actions</h2>
+                        <div className="bg-white/5 p-5 rounded-2xl border border-white/10">
+                            <div className="flex justify-between text-sm mb-2">
+                                <span className="text-gray-400 font-bold">API Requests</span>
+                                <span className="text-primary-400 font-bold">High</span>
                             </div>
-                            <div className="p-8 grid grid-cols-1 gap-4">
-                                <button className="flex items-center space-x-4 p-4 rounded-2xl border border-gray-100 hover:bg-primary-50 hover:border-primary-100 transition-all text-left group">
-                                    <div className="p-3 rounded-xl bg-primary-100 text-primary-600 group-hover:scale-110 transition-transform">
-                                        <Plus className="w-5 h-5" />
-                                    </div>
-                                    <span className="font-bold text-gray-700">Add New User</span>
-                                </button>
-                                <button className="flex items-center space-x-4 p-4 rounded-2xl border border-gray-100 hover:bg-emerald-50 hover:border-emerald-100 transition-all text-left group">
-                                    <div className="p-3 rounded-xl bg-emerald-100 text-emerald-600 group-hover:scale-110 transition-transform">
-                                        <Package className="w-5 h-5" />
-                                    </div>
-                                    <span className="font-bold text-gray-700">Create Product</span>
-                                </button>
-                                <button className="flex items-center space-x-4 p-4 rounded-2xl border border-gray-100 hover:bg-amber-50 hover:border-amber-100 transition-all text-left group">
-                                    <div className="p-3 rounded-xl bg-amber-100 text-amber-600 group-hover:scale-110 transition-transform">
-                                        <BarChart3 className="w-5 h-5" />
-                                    </div>
-                                    <span className="font-bold text-gray-700">View Analytics</span>
-                                </button>
-                                <button className="flex items-center space-x-4 p-4 rounded-2xl border border-gray-100 hover:bg-violet-50 hover:border-violet-100 transition-all text-left group">
-                                    <div className="p-3 rounded-xl bg-violet-100 text-violet-600 group-hover:scale-110 transition-transform">
-                                        <Settings className="w-5 h-5" />
-                                    </div>
-                                    <span className="font-bold text-gray-700">Panel Settings</span>
-                                </button>
+                            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div className="h-full bg-primary-500 w-[78%] rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
                             </div>
                         </div>
                     </div>
-                </main>
+                    <button className="w-full mt-8 py-4 bg-white text-gray-900 rounded-2xl font-black text-sm hover:bg-gray-100 transition-all active:scale-95">
+                        Refresh Diagnostics
+                    </button>
+                </div>
             </div>
-
-            <Footer />
         </div>
     );
 };

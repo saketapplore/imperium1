@@ -10,5 +10,6 @@ router.post('/reset-password/:resetToken', adminController.resetPassword);
 
 // Protected routes - Admin only
 router.get('/profile', protect, authorize('admin'), adminController.getAdminProfile);
+router.post('/logout', protect, authorize('admin'), adminController.logoutAdmin);
 
 module.exports = router;

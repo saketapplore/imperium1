@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const response = await authService.login(credentials);
-            const { token, user: userData } = response.data;
+            const { token, admin: userData } = response.data.data;
 
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(userData));
@@ -43,11 +43,17 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        setUser(null);
-        setIsAuthenticated(false);
+    const logout = async () => {
+        try {
+            await authService.logout();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            setUser(null);
+            setIsAuthenticated(false);
+        }
     };
 
     const updateUser = (updatedUser) => {

@@ -6,18 +6,18 @@ const nodemailer = require('nodemailer');
 
 // Create transporter
 const createTransporter = () => {
-    // For development: use Gmail or any SMTP service
-    // For production: use a service like SendGrid, Mailgun, AWS SES
+  // For development: use Gmail or any SMTP service
+  // For production: use a service like SendGrid, Mailgun, AWS SES
 
-    return nodemailer.createTransport({
-        host: process.env.SMTP_HOST || 'smtp.gmail.com',
-        port: process.env.SMTP_PORT || 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: process.env.SMTP_USER, // Your email
-            pass: process.env.SMTP_PASS, // Your email password or app password
-        },
-    });
+  return nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: process.env.SMTP_PORT || 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.SMTP_USER, // Your email
+      pass: process.env.SMTP_PASS, // Your email password or app password
+    },
+  });
 };
 
 /**
@@ -29,24 +29,24 @@ const createTransporter = () => {
  * @param {String} options.html - HTML content
  */
 const sendEmail = async (options) => {
-    try {
-        const transporter = createTransporter();
+  try {
+    const transporter = createTransporter();
 
-        const mailOptions = {
-            from: process.env.SMTP_FROM || process.env.SMTP_USER,
-            to: options.to,
-            subject: options.subject,
-            text: options.text,
-            html: options.html,
-        };
+    const mailOptions = {
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      to: options.to,
+      subject: options.subject,
+      text: options.text,
+      html: options.html,
+    };
 
-        const info = await transporter.sendMail(mailOptions);
-        console.log('✅ Email sent:', info.messageId);
-        return info;
-    } catch (error) {
-        console.error('❌ Error sending email:', error.message);
-        throw new Error('Failed to send email');
-    }
+    const info = await transporter.sendMail(mailOptions);
+    console.log('✅ Email sent:', info.messageId);
+    return info;
+  } catch (error) {
+    console.error('❌ Error sending email:', error.message);
+    throw new Error('Failed to send email');
+  }
 };
 
 /**
@@ -56,9 +56,9 @@ const sendEmail = async (options) => {
  * @param {String} resetUrl - Reset URL
  */
 const sendPasswordResetEmail = async (email, resetToken, resetUrl) => {
-    const subject = 'Password Reset Request - Imperium Admin';
+  const subject = 'Password Reset Request - Imperium Admin';
 
-    const html = `
+  const html = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -112,7 +112,7 @@ const sendPasswordResetEmail = async (email, resetToken, resetUrl) => {
     </html>
   `;
 
-    const text = `
+  const text = `
     Password Reset Request
     
     Hello Admin,
@@ -129,15 +129,126 @@ const sendPasswordResetEmail = async (email, resetToken, resetUrl) => {
     © ${new Date().getFullYear()} Imperium
   `;
 
-    await sendEmail({
-        to: email,
-        subject,
-        text,
-        html,
-    });
+  await sendEmail({
+    to: email,
+    subject,
+    text,
+    html,
+  });
+};
+
+/**
+ * Send enquiry notification email to admin(s)
+ * @param {Array|String} recipients - Recipient email(s)
+ * @param {Object} enquiry - Enquiry data
+ */
+const sendEnquiryNotificationEmail = async (recipients, enquiry) => {
+  const subject = `New Enquiry Received: ${enquiry.serviceSelected} - ${enquiry.name}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #1a202c; margin: 0; padding: 0; }
+        .wrapper { background-color: #f7fafc; padding: 40px 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .header { background: #1a202c; color: #ffffff; padding: 40px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.025em; }
+        .content { padding: 40px; }
+        .section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #a0aec0; margin-bottom: 24px; border-bottom: 1px solid #edf2f7; padding-bottom: 8px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+        .info-item { margin-bottom: 20px; }
+        .info-label { display: block; font-size: 11px; font-weight: 700; color: #718096; text-transform: uppercase; margin-bottom: 4px; }
+        .info-value { display: block; font-size: 15px; font-weight: 600; color: #2d3748; }
+        .message-box { background: #f8fafc; border-radius: 16px; padding: 24px; border: 1px solid #edf2f7; margin-bottom: 32px; }
+        .footer { text-align: center; padding: 30px; font-size: 12px; color: #718096; background: #f9fafb; }
+        .btn { display: inline-block; padding: 12px 24px; background: #3182ce; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 700; margin-top: 20px; }
+      </style>
+    </head>
+    <body>
+      <div class="wrapper">
+        <div class="container">
+          <div class="header">
+            <h1>🚀 New Lead Captured</h1>
+          </div>
+          <div class="content">
+            <div class="section-title">Client Information</div>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Name</span>
+                <span class="info-value">${enquiry.name}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Email</span>
+                <span class="info-value">${enquiry.email}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Company</span>
+                <span class="info-value">${enquiry.company || 'Not Provided'}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Phone</span>
+                <span class="info-value">${enquiry.phoneNumber || 'Not Provided'}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Country</span>
+                <span class="info-value">${enquiry.country || 'Not Provided'}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Service</span>
+                <span class="info-value">${enquiry.serviceSelected}</span>
+              </div>
+            </div>
+
+            <div class="section-title">Project Requirements</div>
+            <div class="message-box">
+              ${enquiry.projectRequirements || 'No specific requirements mentioned.'}
+            </div>
+
+            <div class="section-title">Message</div>
+            <p style="color: #4a5568;">${enquiry.message || 'No additional message.'}</p>
+            
+            <div style="text-align: center;">
+              <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/enquiries" class="btn">View in Admin Panel</a>
+            </div>
+          </div>
+          <div class="footer">
+            <p>© ${new Date().getFullYear()} Imperium Admin. All rights reserved.</p>
+            <p>This is an automated notification. Manage your alerts in the <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/contact-settings">Settings</a>.</p>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `
+    New Enquiry Received
+    
+    Client: ${enquiry.name} (${enquiry.email})
+    Company: ${enquiry.company || 'N/A'}
+    Service: ${enquiry.serviceSelected}
+    
+    Project Requirements:
+    ${enquiry.projectRequirements || 'N/A'}
+    
+    Message:
+    ${enquiry.message || 'N/A'}
+    
+    View it here: ${process.env.CLIENT_URL || 'http://localhost:5173'}/enquiries
+  `;
+
+  await sendEmail({
+    to: recipients,
+    subject,
+    text,
+    html,
+  });
 };
 
 module.exports = {
-    sendEmail,
-    sendPasswordResetEmail,
+  sendEmail,
+  sendPasswordResetEmail,
+  sendEnquiryNotificationEmail,
 };

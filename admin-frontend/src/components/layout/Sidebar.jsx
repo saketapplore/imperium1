@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard,
-    Users,
-    Package,
-    ShoppingCart,
+    FileText,
+    MessageSquare,
     Settings,
+    Image,
     Shield,
     LogOut
 } from 'lucide-react';
@@ -15,17 +15,16 @@ const Sidebar = () => {
     const { logout } = useAuth();
 
     const menuItems = [
-        { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-        { path: '/users', label: 'Users', icon: Users },
-        { path: '/products', label: 'Products', icon: Package },
-        { path: '/orders', label: 'Orders', icon: ShoppingCart },
-        { path: '/settings', label: 'Settings', icon: Settings },
+        { path: '/content-management', label: 'Content Management', icon: FileText },
+        { path: '/enquiries', label: 'Enquiries', icon: MessageSquare },
+        { path: '/contact-settings', label: 'Contact Settings', icon: Settings },
+        { path: '/media-library', label: 'Media Library', icon: Image },
     ];
 
     const isActive = (path) => location.pathname === path;
 
     return (
-        <aside className="bg-gray-900 text-white w-64 min-h-screen hidden md:flex flex-col">
+        <aside className="bg-gray-900 text-white w-64 hidden md:flex flex-col border-r border-gray-800">
             <div className="p-6 border-b border-gray-800">
                 <div className="flex items-center space-x-2">
                     <Shield className="w-8 h-8 text-primary-500" />
@@ -41,8 +40,8 @@ const Sidebar = () => {
                             key={item.path}
                             to={item.path}
                             className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive(item.path)
-                                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/20'
-                                    : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                                ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/20'
+                                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                                 }`}
                         >
                             <Icon className={`w-5 h-5 transition-transform duration-200 group-hover:scale-110 ${isActive(item.path) ? 'text-white' : 'text-gray-400 group-hover:text-primary-400'

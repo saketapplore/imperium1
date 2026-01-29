@@ -264,9 +264,26 @@ const resetPassword = async (req, res, next) => {
     }
 };
 
+/**
+ * @route   POST /api/admin/logout
+ * @desc    Logout admin
+ * @access  Private/Admin
+ */
+const logoutAdmin = async (req, res, next) => {
+    try {
+        // Since we are using stateless JWT, we don't necessarily need to do anything on the server
+        // however, if we were using cookies or a token blacklist, we would handle it here.
+        // For now, we just return a success message.
+        sendSuccess(res, 200, 'Logout successful');
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     adminLogin,
     getAdminProfile,
     forgotPassword,
     resetPassword,
+    logoutAdmin,
 };
