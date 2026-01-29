@@ -1,0 +1,72 @@
+import { createContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { authService } from '../services/auth.service';
+
+export const AuthContext = createContext(null);
+
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    // Check if user is already logged in on mount
+    useEffect(() => {
+        const initAuth = () => {
+            const token = localStorage.getItem('token');
+            const userData = localStorage.getItem('user');
+
+            if (token && userData) {
+                setUser(JSON.parse(userData));
+                setIsAuthenticated(true);
+            }
+
+            setLoading(false);
+        };
+
+        initAuth();
+    }, []);
+
+    const login = async (credentials) => {
+        try {
+            const response = await authService.login(credentials);
+            const { token, user: userData } = response.data;
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(userData));
+
+            setUser(userData);
+            setIsAuthenticated(true);
+
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+        setIsAuthenticated(false);
+    };
+
+    const updateUser = (updatedUser) => {
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+    };
+
+    const value = {
+        user,
+        loading,
+        isAuthenticated,
+        login,
+        logout,
+        updateUser,
+    };
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+AuthProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
