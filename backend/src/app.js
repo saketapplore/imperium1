@@ -11,6 +11,7 @@ const contentRoutes = require('./routes/content.routes');
 const publicRoutes = require('./routes/public.routes');
 const enquiryRoutes = require('./routes/enquiry.routes');
 const settingRoutes = require('./routes/setting.routes');
+const uploadRoutes = require('./routes/upload.routes');
 
 // Initialize express app
 const app = express();
@@ -52,6 +53,7 @@ app.use('/api/admin', adminRoutes); // Admin authentication
 app.use('/api/admin/content', contentRoutes); // Admin content management (protected)
 app.use('/api/admin/enquiries', enquiryRoutes); // Admin enquiries management (protected)
 app.use('/api/admin/settings', settingRoutes); // Admin global settings (protected)
+app.use('/api/admin/uploads', uploadRoutes); // Admin file uploads (protected)
 app.use('/api/content', publicRoutes); // Public content (no auth)
 app.use('/api/enquiries', enquiryRoutes); // Public enquiry submission (partially public)
 

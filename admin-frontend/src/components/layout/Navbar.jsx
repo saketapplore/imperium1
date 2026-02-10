@@ -18,20 +18,11 @@ const Navbar = () => {
     return (
         <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 px-4 sm:px-6 lg:px-8 w-full">
             <div className="flex justify-between items-center h-16 w-full">
-                {/* Left: Mobile Menu & Search */}
+                {/* Left: Mobile Menu */}
                 <div className="flex items-center flex-1">
                     <button className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-100">
                         <Menu className="w-6 h-6" />
                     </button>
-
-                    <div className="hidden sm:flex items-center ml-4 bg-gray-50 border border-gray-200 rounded-xl px-3 py-1.5 w-64 focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-transparent transition-all">
-                        <Search className="w-4 h-4 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Quick search..."
-                            className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full text-gray-600 outline-none"
-                        />
-                    </div>
                 </div>
 
                 {/* Right: Notifications & Profile */}
