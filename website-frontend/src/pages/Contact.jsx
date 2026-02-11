@@ -234,12 +234,12 @@ const Contact = () => {
             </section>
 
             {/* Contact Info Section */}
-            <section className="bg-[#F8F9FA] px-6 py-16 md:py-24">
+            <section className="px-6 py-16 md:py-24">
                 <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2">
                     {/* Left Side */}
                     <div>
-                        <div className="mb-4 h-0.5 w-10 bg-[#D9BB8E]" />
-                        <p className="mb-6 text-sm font-medium text-slate-800">
+                        <div className="mb-4 h-1 w-20 bg-[#D9BB8E]" />
+                        <p className="mb-6 text-xl font-medium text-slate-800">
                             Contact Info
                         </p>
                         <h2 className="text-4xl font-bold leading-tight text-[#001B2F] md:text-5xl">

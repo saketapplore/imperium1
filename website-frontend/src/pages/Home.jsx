@@ -118,7 +118,7 @@ const Home = () => {
             About us
           </p>
 
-          <div className="flex flex-col gap-0 md:flex-row">
+          <div className="flex flex-col md:flex-row">
             {/* Left column - headings */}
             <div className="w-full md:w-3/5 ">
               <h2 className="text-4xl font-bold leading-none text-[#001B2F] md:text-6xl lg:text-5xl">
@@ -130,8 +130,8 @@ const Home = () => {
             </div>
 
             {/* Right column - description */}
-            <div className="w-full md:w-[50%] md:mt-32">
-              <div className="flex text-xs leading-relaxed text-slate-600 md:text-[18px]">
+            <div className="w-full md:w-[50%] md:mt-32 md:-ml-48">
+              <div className="flex text-xs leading-relaxed text-slate-600 md:text-[20px]">
                 <p>
                   At Solved Imperium Ventures, we turn complexity into clarity and transform opportunities into commercial success. Whether expanding globally or entering a new market, we act as a trusted partner across every step pf the supply chain.
                   With a team of seasoned professionals in different continents, we streaming import/export operations, building strategic global distribution networks to crafting bespoke private label solutions. From concept to container, we deliver tailored results, no matter the category or market.
@@ -162,6 +162,7 @@ const Home = () => {
 
       {/* Our Services grid section */}
       <section id="services" className="px-6 py-16 text-slate-900 md:py-24">
+        <h1 className="text-4xl leading-none text-[#001B2F] md:text-4xl ml-24 mb-10 lg:text-3xl">Our Services</h1>
         <div className="mx-auto grid w-full max-w-7xl gap-10 md:grid-cols-2 md:items-stretch">
           {/* Left column - image */}
           <div className="overflow-hidden rounded-md bg-white shadow-sm">

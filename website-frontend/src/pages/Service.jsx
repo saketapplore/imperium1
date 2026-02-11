@@ -67,16 +67,16 @@ const Service = () => {
                         Our services
                     </h4>
 
-                    <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
+                    <div className="flex flex-col lg:flex-row">
                         <h1 className="max-w-3xl text-4xl font-bold leading-tight text-[#001B2F] md:text-5xl lg:text-6xl">
                             Strategic Solutions for
                             <br />
-                            <span style={{ color: '#D4B684', fontFamily: 'Urbanist', fontSize: '61px', fontStyle: 'normal', fontWeight: '700', lineHeight: '120%' }}>
+                            <span style={{ color: '#D4B684', fontFamily: 'Urbanist', fontSize: '66px', fontStyle: 'normal', fontWeight: '700', lineHeight: '120%' }}>
                                 Global Expansion
                             </span>
                         </h1>
 
-                        <p className="max-w-lg text-sm leading-relaxed text-slate-700 md:text-base lg:mt-[180px]">
+                        <p className="max-w-[50%] text-xl leading-relaxed md:-ml-32 text-slate-700 md:text-lg lg:mt-[180px]">
                             We deliver structured, compliant international trade and distribution solutions that protect brand value and enable sustainable global growth.
                         </p>
                     </div>

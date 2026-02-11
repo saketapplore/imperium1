@@ -17,8 +17,8 @@ const AppRoutes = () => {
     return (
         <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            {/* <Route path="/" element={<Home />} /> */}
+            <Route path="/" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/admin/reset-password/:token" element={<ResetPassword />} />
 
