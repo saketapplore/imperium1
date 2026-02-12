@@ -76,7 +76,7 @@ const Service = () => {
                             </span>
                         </h1>
 
-                        <p className="max-w-[50%] text-xl leading-relaxed md:-ml-32 text-slate-700 md:text-lg lg:mt-[180px]">
+                        <p className="max-w-[50%] text-lg leading-relaxed md:-ml-[50px] text-slate-700 md:text-xl lg:mt-[180px]">
                             We deliver structured, compliant international trade and distribution solutions that protect brand value and enable sustainable global growth.
                         </p>
                     </div>

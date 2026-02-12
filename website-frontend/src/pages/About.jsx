@@ -132,8 +132,8 @@ const About = () => {
                 <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-3 gap-12">
                     {/* Item 1: Reliable */}
                     <div className="flex flex-col items-start gap-6">
-                        <div className="h-20 w-20 rounded-full border-2 border-[#D9BB8E] flex items-center justify-center bg-white p-4">
-                            <img src="/images/reliable.png" alt="Reliable icon" className="h-10 w-10 object-contain" />
+                        <div className="h-20 w-20">
+                            <img src="/images/reliable.png" alt="Reliable icon" className="h-[60px] w-[60px] object-fill" />
                         </div>
                         <h3 className="text-xl font-bold text-[#001B2F] md:text-2xl">
                             Reliable
@@ -147,8 +147,8 @@ const About = () => {
 
                     {/* Item 2: Global Reach */}
                     <div className="flex flex-col items-start gap-6">
-                        <div className="h-20 w-20 rounded-full border-2 border-[#D9BB8E] flex items-center justify-center bg-white p-4">
-                            <img src="/images/global.png" alt="Global icon" className="h-10 w-10 object-contain" />
+                        <div className="h-20 w-20">
+                            <img src="/images/global.png" alt="Global icon" className="h-[60px] w-[60px] object-fill" />
                         </div>
                         <h3 className="text-xl font-bold text-[#001B2F] md:text-2xl">
                             Global Reach
@@ -162,8 +162,8 @@ const About = () => {
 
                     {/* Item 3: Strategic Excellence */}
                     <div className="flex flex-col items-start gap-6">
-                        <div className="h-20 w-20 rounded-full border-2 border-[#D9BB8E] flex items-center justify-center bg-white p-4">
-                            <img src="/images/strategic.png" alt="Strategic icon" className="h-10 w-10 object-contain" />
+                        <div className="h-20 w-20">
+                            <img src="/images/strategic.png" alt="Strategic icon" className="h-[60px] w-[60px] object-fill" />
                         </div>
                         <h3 className="text-xl font-bold text-[#001B2F] md:text-2xl">
                             Strategic excellence
