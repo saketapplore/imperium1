@@ -50,8 +50,8 @@ const LeadershipManager = () => {
             return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
-            alert('Image size should be less than 5MB');
+        if (file.size > 20 * 1024 * 1024) {
+            alert('Image size should be less than 20MB');
             return;
         }
 
@@ -259,7 +259,7 @@ const LeadershipManager = () => {
                                                 />
                                             </label>
                                             <p className="text-xs text-gray-500 mt-2">
-                                                Recommended: Square image (500x500px). Max size 5MB.
+                                                Recommended: Square image (500x500px). Max size 20MB.
                                             </p>
                                         </div>
                                     </div>
@@ -323,8 +323,9 @@ const LeadershipManager = () => {
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Display Order</label>
                                     <input
                                         type="number"
+                                        min="0"
                                         value={formData.displayOrder}
-                                        onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })}
+                                        onChange={(e) => setFormData({ ...formData, displayOrder: Math.max(0, parseInt(e.target.value) || 0) })}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#001B2F]/20 focus:border-[#001B2F]"
                                     />
                                 </div>

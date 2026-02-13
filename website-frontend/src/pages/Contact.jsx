@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import api from '../services/api';
+import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const Contact = () => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -18,6 +16,24 @@ const Contact = () => {
     });
     const [status, setStatus] = useState('idle'); // idle, loading, success, error
     const [message, setMessage] = useState('');
+    const [contactContent, setContactContent] = useState(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+
+        const fetchContent = async () => {
+            try {
+                const response = await api.get('/content/contact');
+                if (response.data.success) {
+                    setContactContent(response.data.data.contact);
+                }
+            } catch (error) {
+                console.error('Error fetching contact content:', error);
+            }
+        };
+
+        fetchContent();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -52,48 +68,18 @@ const Contact = () => {
 
     return (
         <>
-            <header className="w-full bg-[#001B2F] px-6 py-4">
-                <div className="mx-auto flex max-w-7xl items-center justify-between">
-                    {/* Left - Logo */}
-                    <div className="flex-shrink-0">
-                        <img
-                            src="/images/ilogo.png"
-                            alt="Solved Imperium Ventures"
-                            className="h-14 w-auto object-contain"
-                        />
-                    </div>
-
-                    {/* Right - Navigation */}
-                    <nav className="flex items-center gap-8">
-                        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white">
-                            <a href="/" className="hover:text-amber-300 transition">
-                                Home
-                            </a>
-                            <a href="/services" className="hover:text-amber-300 transition">
-                                Services
-                            </a>
-                            <a href="/about" className="hover:text-amber-300 transition">
-                                About us
-                            </a>
-                        </div>
-
-                        <a href="/contact" className="rounded-full bg-[#D9BB8E] px-6 py-2 text-sm font-semibold text-slate-900 hover:bg-[#ceae7d] transition">
-                            Contact us
-                        </a>
-                    </nav>
-                </div>
-            </header>
+            <Navbar />
 
             {/* Contact Hero Section */}
-            <section className="px-6 py-16 md:py-24">
-                <div className="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-start">
+            <section className="px-4 sm:px-6 py-10 sm:py-12 md:py-16 lg:py-24">
+                <div className="mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-start gap-6 md:gap-8">
                     {/* Left Side Content */}
                     <div className="max-w-4xl">
-                        <div className="mb-4 h-1 w-20 bg-[#D9BB8E]" />
-                        <p className="mb-6 text-xl font-medium text-slate-800">
+                        <div className="mb-3 sm:mb-4 h-1 w-16 sm:w-20 bg-[#D9BB8E]" />
+                        <p className="mb-4 sm:mb-6 text-base sm:text-lg md:text-xl font-medium text-slate-800">
                             Get Started
                         </p>
-                        <h1 className="text-4xl font-bold leading-tight text-[#001B2F] md:text-5xl lg:text-6xl">
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-[#001B2F]">
                             Get in touch with us.
                             <br />
                             We're here to assist you.
@@ -101,28 +87,28 @@ const Contact = () => {
                     </div>
 
                     {/* Right Side Social Icons */}
-                    <div className="mt-8 flex gap-6 md:mt-10 md:flex-col md:items-end">
+                    <div className="flex gap-4 sm:gap-6 md:mt-10 md:flex-col md:items-end">
                         <a href="#" className="text-slate-900 hover:text-slate-600 transition">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="sm:w-6 sm:h-6">
                                 <path d="M18.244 2.25H21.552L14.325 10.51L22.827 21.75H16.17L10.956 14.933L4.99 21.75H1.68L9.241 12.876L1.095 2.25H7.952L12.812 8.674L18.244 2.25ZM17.087 19.769H18.92L6.645 4.126H4.664L17.087 19.769Z" fill="currentColor" />
                             </svg>
                         </a>
                         <a href="#" className="hover:opacity-80 transition">
-                            <img src="/images/link3.png" alt="LinkedIn" className="h-6 w-6" />
+                            <img src="/images/link3.png" alt="LinkedIn" className="h-5 w-5 sm:h-6 sm:w-6" />
                         </a>
                         <a href="#" className="hover:opacity-80 transition">
-                            <img src="/images/insta3.png" alt="Instagram" className="h-6 w-6" />
+                            <img src="/images/insta3.png" alt="Instagram" className="h-5 w-5 sm:h-6 sm:w-6" />
                         </a>
                     </div>
                 </div>
             </section>
 
             {/* Contact Form Section */}
-            <section className="px-6 pb-16 md:pb-24">
+            <section className="px-4 sm:px-6 pb-10 sm:pb-12 md:pb-16 lg:pb-24">
                 <div className="mx-auto max-w-7xl">
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-12 md:gap-16">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-8 sm:gap-10 md:gap-12 lg:gap-16">
                         {/* Row 1 */}
-                        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
+                        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-3 md:gap-10 lg:gap-12">
                             <div className="group relative">
                                 <input
                                     type="text"
@@ -131,7 +117,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     placeholder="Your Name"
                                     required
-                                    className="w-full border-b border-slate-300 bg-transparent py-3 text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
+                                    className="w-full border-b border-slate-300 bg-transparent py-2 sm:py-3 text-sm sm:text-base text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
                                 />
                             </div>
                             <div className="group relative">
@@ -142,7 +128,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     placeholder="Email Address"
                                     required
-                                    className="w-full border-b border-slate-300 bg-transparent py-3 text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
+                                    className="w-full border-b border-slate-300 bg-transparent py-2 sm:py-3 text-sm sm:text-base text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
                                 />
                             </div>
                             <div className="group relative">
@@ -152,13 +138,13 @@ const Contact = () => {
                                     value={formData.phoneNumber}
                                     onChange={handleChange}
                                     placeholder="Phone Number (optional)"
-                                    className="w-full border-b border-slate-300 bg-transparent py-3 text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
+                                    className="w-full border-b border-slate-300 bg-transparent py-2 sm:py-3 text-sm sm:text-base text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
                                 />
                             </div>
                         </div>
 
                         {/* Row 2 */}
-                        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
+                        <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-3 md:gap-10 lg:gap-12">
                             <div className="group relative">
                                 <input
                                     type="text"
@@ -166,7 +152,7 @@ const Contact = () => {
                                     value={formData.company}
                                     onChange={handleChange}
                                     placeholder="Company Name"
-                                    className="w-full border-b border-slate-300 bg-transparent py-3 text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
+                                    className="w-full border-b border-slate-300 bg-transparent py-2 sm:py-3 text-sm sm:text-base text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
                                 />
                             </div>
                             <div className="group relative">
@@ -176,7 +162,7 @@ const Contact = () => {
                                     value={formData.country}
                                     onChange={handleChange}
                                     placeholder="Country"
-                                    className="w-full border-b border-slate-300 bg-transparent py-3 text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
+                                    className="w-full border-b border-slate-300 bg-transparent py-2 sm:py-3 text-sm sm:text-base text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
                                 />
                             </div>
                             <div className="group relative">
@@ -187,7 +173,7 @@ const Contact = () => {
                                     onChange={handleChange}
                                     placeholder="Services interested in"
                                     required
-                                    className="w-full border-b border-slate-300 bg-transparent py-3 text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
+                                    className="w-full border-b border-slate-300 bg-transparent py-2 sm:py-3 text-sm sm:text-base text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
                                 />
                             </div>
                         </div>
@@ -199,7 +185,8 @@ const Contact = () => {
                                 value={formData.projectRequirements}
                                 onChange={handleChange}
                                 placeholder="Project requirements"
-                                className="w-full resize-none border-b border-slate-300 bg-transparent text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
+                                rows="1"
+                                className="w-full resize-none border-b border-slate-300 bg-transparent py-2 sm:py-3 text-sm sm:text-base text-slate-800 custom-placeholder outline-none focus:border-slate-800 transition"
                             ></textarea>
                         </div>
 
@@ -208,12 +195,12 @@ const Contact = () => {
                             <button
                                 type="submit"
                                 disabled={status === 'loading'}
-                                className="rounded bg-[#001B2F] px-20 py-3 text-sm font-semibold text-white transition hover:bg-opacity-90 disabled:opacity-50"
+                                className="rounded bg-[#001B2F] px-8 sm:px-12 md:px-16 lg:px-20 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white transition hover:bg-opacity-90 disabled:opacity-50 w-full sm:w-auto"
                             >
                                 {status === 'loading' ? 'Sending...' : 'Leave us a message'}
                             </button>
                             {message && (
-                                <p className={`mt-4 text-sm ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                                <p className={`mt-3 sm:mt-4 text-xs sm:text-sm ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
                                     {message}
                                 </p>
                             )}
@@ -223,26 +210,26 @@ const Contact = () => {
             </section>
 
             {/* Contact Image Section */}
-            <section className="w-full">
-                <div className="max-w-7xl mx-auto h-[200px] md:h-[300px] lg:h-[400px] overflow-hidden">
+            <section className="w-full px-4 sm:px-0">
+                <div className="max-w-7xl mx-auto h-[150px] sm:h-[200px] md:h-[300px] lg:h-[400px] overflow-hidden rounded-lg sm:rounded-none">
                     <img
-                        src="/images/contact1.png"
+                        src={contactContent?.image || "/images/contact1.png"}
                         alt="Contact visual"
-                        className="w-full h-full object-fill"
+                        className="w-full h-full object-cover"
                     />
                 </div>
             </section>
 
             {/* Contact Info Section */}
-            <section className="px-6 py-16 md:py-24">
-                <div className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-2">
+            <section className="px-4 sm:px-6 py-10 sm:py-12 md:py-16 lg:py-24">
+                <div className="mx-auto max-w-7xl grid gap-8 sm:gap-10 md:gap-12 lg:grid-cols-2">
                     {/* Left Side */}
                     <div>
-                        <div className="mb-4 h-1 w-20 bg-[#D9BB8E]" />
-                        <p className="mb-6 text-xl font-medium text-slate-800">
+                        <div className="mb-3 sm:mb-4 h-1 w-16 sm:w-20 bg-[#D9BB8E]" />
+                        <p className="mb-4 sm:mb-6 text-base sm:text-lg md:text-xl font-medium text-slate-800">
                             Contact Info
                         </p>
-                        <h2 className="text-4xl font-bold leading-tight text-[#001B2F] md:text-5xl">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-[#001B2F]">
                             We are always
                             <br />
                             happy to assist you
@@ -250,15 +237,15 @@ const Contact = () => {
                     </div>
 
                     {/* Right Side */}
-                    <div className="grid gap-20 md:grid-cols-2 items-start mt-8 lg:mt-0">
+                    <div className="grid gap-10 sm:gap-12 md:gap-16 lg:gap-20 sm:grid-cols-2 items-start">
                         {/* Email Block */}
                         <div>
-                            <h3 className="text-sm font-semibold text-[#001B2F]">Email Address</h3>
-                            <div className="my-4 h-0.5 w-4 bg-slate-800" />
-                            <p className="mb-4 text-sm font-medium text-slate-700">
+                            <h3 className="text-xs sm:text-sm font-semibold text-[#001B2F]">Email Address</h3>
+                            <div className="my-3 sm:my-4 h-0.5 w-4 bg-slate-800" />
+                            <p className="mb-3 sm:mb-4 text-xs sm:text-sm font-medium text-slate-700">
                                 loremipsum@loremipsum.com
                             </p>
-                            <p className="text-xs leading-relaxed text-slate-500">
+                            <p className="text-[10px] sm:text-xs leading-relaxed text-slate-500">
                                 Assistance hours:
                                 <br />
                                 Monday - Friday 6 am to
@@ -269,12 +256,12 @@ const Contact = () => {
 
                         {/* Number Block */}
                         <div>
-                            <h3 className="text-sm font-semibold text-[#001B2F]">Number</h3>
-                            <div className="my-4 h-0.5 w-4 bg-slate-800" />
-                            <p className="mb-4 text-sm font-medium text-slate-700">
+                            <h3 className="text-xs sm:text-sm font-semibold text-[#001B2F]">Number</h3>
+                            <div className="my-3 sm:my-4 h-0.5 w-4 bg-slate-800" />
+                            <p className="mb-3 sm:mb-4 text-xs sm:text-sm font-medium text-slate-700">
                                 (+31) 11111111111
                             </p>
-                            <p className="text-xs leading-relaxed text-slate-500">
+                            <p className="text-[10px] sm:text-xs leading-relaxed text-slate-500">
                                 Assistance hours:
                                 <br />
                                 Monday - Friday 6 am to

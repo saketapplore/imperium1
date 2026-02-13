@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { FileText, Layout, Info, Layers } from 'lucide-react';
 import HomeContent from './Home/HomeContent';
 import ServicesManager from './ServicesManager';
+import FocusedCategoryManager from './FocusedCategoryManager';
+import ServiceGrowthManager from './ServiceGrowthManager';
+import ServiceHeroManager from './ServiceHeroManager';
 import LeadershipManager from './About/LeadershipManager';
+import AboutImagesManager from './About/AboutImagesManager';
+import ContactManager from './Contact/ContactManager';
+import { MessageSquare } from 'lucide-react';
 
 const ContentManagement = () => {
     const [activeTab, setActiveTab] = useState('home');
@@ -11,6 +17,7 @@ const ContentManagement = () => {
         { id: 'home', label: 'Home Page', icon: Layout },
         { id: 'about', label: 'About Us', icon: Info },
         { id: 'services', label: 'Services', icon: Layers },
+        { id: 'contact', label: 'Contact', icon: MessageSquare },
     ];
 
     return (
@@ -48,9 +55,27 @@ const ContentManagement = () => {
                 <div className="p-6 md:p-8">
                     {activeTab === 'home' && <HomeContent />}
 
-                    {activeTab === 'about' && <LeadershipManager />}
+                    {activeTab === 'about' && (
+                        <div className="space-y-12">
+                            <AboutImagesManager />
+                            <LeadershipManager />
+                        </div>
+                    )}
 
-                    {activeTab === 'services' && <ServicesManager />}
+                    {activeTab === 'services' && (
+                        <div className="space-y-12">
+                            <ServiceHeroManager />
+                            <ServiceGrowthManager />
+                            <ServicesManager />
+                            <FocusedCategoryManager />
+                        </div>
+                    )}
+
+                    {activeTab === 'contact' && (
+                        <div className="space-y-12">
+                            <ContactManager />
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

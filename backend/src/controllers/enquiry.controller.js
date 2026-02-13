@@ -137,16 +137,18 @@ exports.createEnquiry = async (req, res, next) => {
     try {
         const enquiry = await Enquiry.create(req.body);
 
-        // Send email notification to admins
+        // Send email notification to admins (and specifically the requested email)
         try {
-            let settings = await GlobalSetting.findOne();
-            if (!settings) {
-                settings = await GlobalSetting.create({});
-            }
+            const adminEmail = 'saket.kakkar@applore.in';
+            await sendEnquiryNotificationEmail(adminEmail, enquiry);
 
-            const recipients = settings.notificationEmails;
-            if (recipients && recipients.length > 0) {
-                await sendEnquiryNotificationEmail(recipients, enquiry);
+            // Also send to any other configured notification emails
+            let settings = await GlobalSetting.findOne();
+            if (settings && settings.notificationEmails && settings.notificationEmails.length > 0) {
+                const otherRecipients = settings.notificationEmails.filter(email => email !== adminEmail);
+                if (otherRecipients.length > 0) {
+                    await sendEnquiryNotificationEmail(otherRecipients, enquiry);
+                }
             }
         } catch (emailError) {
             console.error('⚠️ Email Notification Failed:', emailError.message);

@@ -12,7 +12,7 @@ const Footer = () => {
                 </div>
 
                 {/* Right Column - Navigation & Info */}
-                <div className="flex w-full flex-col gap-8 md:w-auto md:items-end">
+                <div className="flex w-full flex-col gap-0 md:w-auto md:items-end">
 
                     {/* Navigation Links */}
                     <nav className="flex flex-wrap gap-8 text-sm font-light text-white/90 md:justify-end">
@@ -22,7 +22,7 @@ const Footer = () => {
                     </nav>
 
                     {/* Social Icons */}
-                    <div className="flex gap-4 md:justify-end">
+                    <div className="flex gap-4 md:justify-end mt-8">
                         {/* X (Twitter) Icon */}
                         <a href="#" className="flex h-8 w-8 items-center justify-center rounded-sm bg-transparent hover:opacity-80 transition">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

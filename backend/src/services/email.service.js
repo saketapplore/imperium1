@@ -206,16 +206,11 @@ const sendEnquiryNotificationEmail = async (recipients, enquiry) => {
               ${enquiry.projectRequirements || 'No specific requirements mentioned.'}
             </div>
 
-            <div class="section-title">Message</div>
-            <p style="color: #4a5568;">${enquiry.message || 'No additional message.'}</p>
             
-            <div style="text-align: center;">
-              <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/enquiries" class="btn">View in Admin Panel</a>
-            </div>
+            
           </div>
           <div class="footer">
             <p>© ${new Date().getFullYear()} Imperium Admin. All rights reserved.</p>
-            <p>This is an automated notification. Manage your alerts in the <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/contact-settings">Settings</a>.</p>
           </div>
         </div>
       </div>

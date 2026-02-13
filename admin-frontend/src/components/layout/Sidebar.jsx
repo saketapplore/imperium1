@@ -17,8 +17,8 @@ const Sidebar = () => {
     const menuItems = [
         { path: '/content-management', label: 'Content Management', icon: FileText },
         { path: '/enquiries', label: 'Enquiries', icon: MessageSquare },
-        { path: '/contact-settings', label: 'Contact Settings', icon: Settings },
-        { path: '/media-library', label: 'Media Library', icon: Image },
+        // { path: '/contact-settings', label: 'Contact Settings', icon: Settings },
+        // { path: '/media-library', label: 'Media Library', icon: Image },
     ];
 
     const isActive = (path) => location.pathname === path;

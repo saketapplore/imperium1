@@ -24,6 +24,7 @@ const leadershipSchema = new mongoose.Schema(
         displayOrder: {
             type: Number,
             default: 0,
+            min: [0, 'Display order cannot be negative'],
         },
         isVisible: {
             type: Boolean,

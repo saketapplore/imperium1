@@ -27,12 +27,12 @@ const Navbar = () => {
 
                 {/* Right: Notifications & Profile */}
                 <div className="flex items-center space-x-4">
-                    <button className="relative p-2 rounded-xl text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors">
+                    {/* <button className="relative p-2 rounded-xl text-gray-400 hover:bg-gray-50 hover:text-gray-600 transition-colors">
                         <Bell className="w-5 h-5" />
                         <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-                    </button>
+                    </button> */}
 
-                    <div className="h-8 w-px bg-gray-200 mx-2"></div>
+                    {/* <div className="h-8 w-px bg-gray-200 mx-2"></div> */}
 
                     <div className="relative">
                         <button
@@ -46,11 +46,11 @@ const Navbar = () => {
                                 <p className="text-sm font-bold text-gray-900 leading-none">{user?.name || 'Admin User'}</p>
                                 <p className="text-xs text-gray-500 mt-1 uppercase tracking-tighter">Super Admin</p>
                             </div>
-                            <ChevronDown className="w-4 h-4 text-gray-400" />
+                            {/* <ChevronDown className="w-4 h-4 text-gray-400" /> */}
                         </button>
 
                         {/* Dropdown Menu */}
-                        {isProfileOpen && (
+                        {/* {isProfileOpen && (
                             <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 animate-slide-in">
                                 <div className="px-4 py-3 border-b border-gray-50">
                                     <p className="text-sm font-medium text-gray-900">{user?.name || 'Admin User'}</p>
@@ -76,7 +76,7 @@ const Navbar = () => {
                                     </button>
                                 </div>
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </div>

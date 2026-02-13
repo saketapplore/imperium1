@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
 
-const coreOfferingSchema = new mongoose.Schema(
+const focusedCategorySchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: [true, 'Please provide a title'],
+            required: [true, 'Please provide category title'],
             trim: true,
         },
         description: {
             type: String,
-            required: [true, 'Please provide a description'],
+            required: [true, 'Please provide description'],
             trim: true,
         },
-        icon: {
+        image: {
             type: String,
-            default: '',
+            required: [true, 'Please provide image URL'],
         },
         displayOrder: {
             type: Number,
@@ -31,6 +31,6 @@ const coreOfferingSchema = new mongoose.Schema(
     }
 );
 
-const CoreOffering = mongoose.model('CoreOffering', coreOfferingSchema);
+const FocusedCategory = mongoose.model('FocusedCategory', focusedCategorySchema);
 
-module.exports = CoreOffering;
+module.exports = FocusedCategory;

@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X, GripVertical, Upload, Loader2, Image as ImageIcon } from 'lucide-react';
 import api from '../../services/api';
 
-const ServicesManager = () => {
-    const [services, setServices] = useState([]);
+const FocusedCategoryManager = () => {
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
-        shortSummary: '',
-        detailedDescription: '',
+        description: '',
         image: '',
         displayOrder: 0,
         isVisible: true
@@ -17,35 +16,34 @@ const ServicesManager = () => {
     const [editingId, setEditingId] = useState(null);
     const [uploadingImage, setUploadingImage] = useState(false);
 
-    // Fetch services
-    const fetchServices = async () => {
+    // Fetch categories
+    const fetchCategories = async () => {
         try {
-            const response = await api.get('/admin/content/services');
+            const response = await api.get('/admin/content/focused-categories');
             if (response.data.success) {
-                setServices(response.data.data.services || []);
+                setCategories(response.data.data.categories || []);
             }
         } catch (error) {
-            console.error('Error fetching services:', error);
+            console.error('Error fetching focused categories:', error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchServices();
+        fetchCategories();
     }, []);
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Basic validation
         if (!file.type.startsWith('image/')) {
             alert('Please upload an image file');
             return;
         }
 
-        if (file.size > 20 * 1024 * 1024) { // 20MB limit
+        if (file.size > 20 * 1024 * 1024) {
             alert('Image size should be less than 20MB');
             return;
         }
@@ -75,60 +73,56 @@ const ServicesManager = () => {
         e.preventDefault();
         try {
             if (editingId) {
-                await api.put(`/admin/content/services/${editingId}`, formData);
+                await api.put(`/admin/content/focused-categories/${editingId}`, formData);
             } else {
-                await api.post('/admin/content/services', formData);
+                await api.post('/admin/content/focused-categories', formData);
             }
             setIsModalOpen(false);
             setEditingId(null);
             setFormData({
                 title: '',
-                shortSummary: '',
-                detailedDescription: '',
+                description: '',
                 image: '',
                 displayOrder: 0,
                 isVisible: true
             });
-            fetchServices();
+            fetchCategories();
         } catch (error) {
-            console.error('Error saving service:', error);
-            alert('Failed to save service');
+            console.error('Error saving category:', error);
+            alert('Failed to save category');
         }
     };
 
-    const handleEdit = (service) => {
+    const handleEdit = (category) => {
         setFormData({
-            title: service.title,
-            shortSummary: service.shortSummary || '',
-            detailedDescription: service.detailedDescription || '',
-            image: service.image || '',
-            displayOrder: service.displayOrder || 0,
-            isVisible: service.isVisible
+            title: category.title,
+            description: category.description || '',
+            image: category.image || '',
+            displayOrder: category.displayOrder || 0,
+            isVisible: category.isVisible
         });
-        setEditingId(service._id);
+        setEditingId(category._id);
         setIsModalOpen(true);
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this service?')) {
+        if (window.confirm('Are you sure you want to delete this category?')) {
             try {
-                await api.delete(`/admin/content/services/${id}`);
-                fetchServices();
+                await api.delete(`/admin/content/focused-categories/${id}`);
+                fetchCategories();
             } catch (error) {
-                console.error('Error deleting service:', error);
-                alert('Failed to delete service');
+                console.error('Error deleting category:', error);
+                alert('Failed to delete category');
             }
         }
     };
 
     const openCreateModal = () => {
-        // Find highest displayOrder to append
-        const maxOrder = services.length > 0 ? Math.max(...services.map(s => s.displayOrder || 0)) : 0;
+        const maxOrder = categories.length > 0 ? Math.max(...categories.map(c => c.displayOrder || 0)) : 0;
 
         setFormData({
             title: '',
-            shortSummary: '',
-            detailedDescription: '',
+            description: '',
             image: '',
             displayOrder: maxOrder + 1,
             isVisible: true
@@ -140,37 +134,36 @@ const ServicesManager = () => {
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mt-8">
             <div className="p-6 border-b border-gray-100 flex justify-between items-center">
                 <div>
-                    <h3 className="text-lg font-bold text-gray-900">Services</h3>
-                    <p className="text-sm text-gray-500">Manage the services displayed on the Services page</p>
+                    <h3 className="text-lg font-bold text-gray-900">Focused Categories</h3>
+                    <p className="text-sm text-gray-500">Manage the category slider for the Services page</p>
                 </div>
                 <button
                     onClick={openCreateModal}
                     className="flex items-center gap-2 bg-[#001B2F] text-white px-4 py-2 rounded-lg hover:bg-[#002B4F] transition-colors text-sm font-medium"
                 >
                     <Plus className="w-4 h-4" />
-                    Add Service
+                    Add Category
                 </button>
             </div>
 
             <div className="divide-y divide-gray-100">
-                {services.length === 0 ? (
+                {categories.length === 0 ? (
                     <div className="p-8 text-center text-gray-500">
-                        No services found. Add one to get started.
+                        No categories found. Add one to get started.
                     </div>
                 ) : (
-                    services.map((service) => (
-                        <div key={service._id} className="p-4 hover:bg-gray-50 transition-colors flex items-center justify-between group">
+                    categories.map((category) => (
+                        <div key={category._id} className="p-4 hover:bg-gray-50 transition-colors flex items-center justify-between group">
                             <div className="flex items-center gap-4 flex-1">
                                 <div className="p-2 text-gray-400 cursor-move">
                                     <GripVertical className="w-4 h-4" />
                                 </div>
-                                {/* Thumbnail */}
                                 <div className="h-12 w-16 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
-                                    {service.image ? (
-                                        <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+                                    {category.image ? (
+                                        <img src={category.image} alt={category.title} className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-gray-400">
                                             <ImageIcon className="w-6 h-6" />
@@ -178,20 +171,20 @@ const ServicesManager = () => {
                                     )}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h4 className="text-sm font-semibold text-gray-900 truncate">{service.title}</h4>
-                                    <p className="text-xs text-gray-500 mt-1 line-clamp-1">{service.shortSummary}</p>
+                                    <h4 className="text-sm font-semibold text-gray-900 truncate">{category.title}</h4>
+                                    <p className="text-xs text-gray-500 mt-1 line-clamp-1">{category.description}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
-                                    onClick={() => handleEdit(service)}
+                                    onClick={() => handleEdit(category)}
                                     className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                     title="Edit"
                                 >
                                     <Edit2 className="w-4 h-4" />
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(service._id)}
+                                    onClick={() => handleDelete(category._id)}
                                     className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                     title="Delete"
                                 >
@@ -203,13 +196,12 @@ const ServicesManager = () => {
                 )}
             </div>
 
-            {/* Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col">
                         <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 flex-shrink-0">
                             <h3 className="font-bold text-gray-900">
-                                {editingId ? 'Edit Service' : 'Add New Service'}
+                                {editingId ? 'Edit Category' : 'Add New Category'}
                             </h3>
                             <button
                                 onClick={() => setIsModalOpen(false)}
@@ -267,26 +259,17 @@ const ServicesManager = () => {
                                                 />
                                             </label>
                                             <p className="text-xs text-gray-500 mt-2">
-                                                Recommended: 600x500px or similar ratio. Max sizes 20MB.
+                                                Recommended: landscape orientation. Max size 20MB.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="col-span-1 md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Short Summary (Used in cards)</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
                                     <textarea
-                                        value={formData.shortSummary}
-                                        onChange={(e) => setFormData({ ...formData, shortSummary: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#001B2F]/20 focus:border-[#001B2F] min-h-[60px]"
-                                    />
-                                </div>
-
-                                <div className="col-span-1 md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Detailed Description (Used in page)</label>
-                                    <textarea
-                                        value={formData.detailedDescription}
-                                        onChange={(e) => setFormData({ ...formData, detailedDescription: e.target.value })}
+                                        value={formData.description}
+                                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#001B2F]/20 focus:border-[#001B2F] min-h-[100px]"
                                         required
                                     />
@@ -340,4 +323,4 @@ const ServicesManager = () => {
     );
 };
 
-export default ServicesManager;
+export default FocusedCategoryManager;

@@ -14,6 +14,9 @@ router.get('/about', contentController.getAboutContent);
 router.get('/services', contentController.getServicesContent);
 router.get('/services/:id', contentController.getServiceById);
 
+// Get contact page content
+router.get('/contact', contentController.getContactContent);
+
 // Get all content at once (useful for initial load)
 router.get('/all', contentController.getAllContent);
 

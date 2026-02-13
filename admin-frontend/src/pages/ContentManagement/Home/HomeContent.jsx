@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import HomeHeroManager from './HomeHeroManager';
+import HomeImageSectionManager from './HomeImageSectionManager';
+import HomeServiceSectionManager from './HomeServiceSectionManager';
 import CoreOfferingsManager from './CoreOfferingsManager';
 import { Layout } from 'lucide-react';
 
 const HomeContent = () => {
-    // In future this can hold tabs for Hero, Testimonials, etc.
-    // For now it just renders the Core Offerings manager.
-
     return (
         <div className="space-y-6">
             <div className="flex items-center gap-3 pb-4 border-b border-gray-100">
@@ -18,12 +17,18 @@ const HomeContent = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6">
+            <div className="grid grid-cols-1 gap-12">
+                {/* Hero Section Manager */}
+                <HomeHeroManager />
+
+                {/* Image Section Manager */}
+                <HomeImageSectionManager />
+
+                {/* Service Section Manager */}
+                <HomeServiceSectionManager />
+
                 {/* Core Offerings Section */}
                 <CoreOfferingsManager />
-
-                {/* Future: Hero Section Manager */}
-                {/* Future: Testimonials Manager */}
             </div>
         </div>
     );
